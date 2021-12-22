@@ -10,10 +10,10 @@ public class Circle extends Shape implements ShapeOperations {
 
     @Override
     public double calculateArea() {
-        if (area==0) {
-            area = Math.PI * Math.pow(r, 2);
+        if (getArea()==0) {
+            setArea(Math.PI * Math.pow(r, 2));
         }
-        return area;
+        return getArea();
     }
 
     public double getR() {

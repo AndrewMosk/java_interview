@@ -10,10 +10,10 @@ public class Square extends Shape implements ShapeOperations {
 
     @Override
     public double calculateArea() {
-        if (area==0) {
-            area = Math.pow(side, 2);
+        if (getArea()==0) {
+            setArea(Math.pow(side, 2));
         }
-        return area;
+        return getArea();
     }
 
     public double getSide() {

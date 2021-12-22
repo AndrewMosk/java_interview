@@ -1,5 +1,13 @@
 package polymorphism;
 
 public abstract class Shape {
-    double area;
+    private double area;
+
+    public double getArea() {
+        return area;
+    }
+
+    public void setArea(double area) {
+        this.area = area;
+    }
 }

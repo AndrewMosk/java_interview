@@ -13,10 +13,10 @@ public class Triangle extends Shape implements ShapeOperations {
 
     @Override
     public double calculateArea() {
-        if (area==0) {
-            area = 0.5 * basis * height;
+        if (getArea()==0) {
+            setArea(0.5 * basis * height);
         }
-        return area;
+        return getArea();
     }
 
     public double getBasis() {
