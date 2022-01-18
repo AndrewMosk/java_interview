@@ -1,0 +1,49 @@
+1. 
+WITH film_shedule as (
+select 
+f.id, 
+f.name, 
+f.duration, 
+s.start_time as start_time, 
+cast(f.duration + s.start_time as time) as end_time
+from schedule as s
+join film as f
+on s.film_id = f.id
+)
+select fh.id as film1_id, fh.name as film1_name, fh.start_time as film1_start, fh.duration as film1_duration,
+fh1.id as film2_id, fh1.name as film2_name, fh1.start_time as film2_start, fh1.duration as film2_duration
+from film_shedule as fh
+join film_shedule as fh1 on fh1.start_time between fh.start_time and fh.end_time and fh.id<>fh1.id
+
+2.
+WITH film_shedule as (
+select 
+f.id, 
+f.name, 
+f.duration, 
+s.start_time as start_time, 
+cast(f.duration + s.start_time as time) as end_time
+from schedule as s
+join film as f
+on s.film_id = f.id
+)
+select fh.id as film1_id, fh.name as film1_name, fh.start_time as film1_start, fh.duration as film1_duration, fh.end_time as film1_end_time, cast(fh1.start_time-fh.end_time as time) as break,
+fh1.id as film2_id, fh1.name as film2_name, fh1.start_time as film2_start, fh1.duration as film2_duration, fh1.end_time as film2_end_time
+from film_shedule as fh
+join film_shedule as fh1 on fh1.start_time > fh.start_time where fh.end_time>fh.start_time and fh.id<>fh1.id and (fh1.start_time-fh.end_time) > '00:30:00'
+3.
+(select f.name, sum(price) as total_price, count(*) as total_tickets, count(*) / count(t.id) as avg from ticket as t 
+join schedule as s on t.schedule_id = s.id
+join film as f on s.film_id = f.id group by f.name order by total_price desc)
+union
+select "Итого", sum(t.price), count(*), count(t.schedule_id) / count(distinct t.schedule_id)
+from schedule as s
+join ticket as t on s.id = t.schedule_id;
+4.
+select hour(s.start_time) as hour, sum(price) as total, count(*) as guests from schedule as s
+join ticket as t on s.id = t.schedule_id
+group by
+(hour(start_time) >= 9 and hour(start_time) < 15),
+(hour(start_time) > 15 and hour(start_time) < 18),
+(hour(start_time) > 18 and hour(start_time) < 21),
+(hour(start_time) > 21 and hour(start_time) < 00)
