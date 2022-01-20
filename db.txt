@@ -1,0 +1,30 @@
+CREATE TABLE `cinema`.`film` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `duration` TIME NULL,
+  PRIMARY KEY (`id`));
+
+
+CREATE TABLE `cinema`.`schedule` (
+  `id` INT NOT NULL,
+  `film_id` INT NOT NULL,
+  `start_time` TIME NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `film` (`film_id` ASC) INVISIBLE,
+  CONSTRAINT `film`
+    FOREIGN KEY (`film_id`)
+    REFERENCES `cinema`.`film` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `cinema`.`ticket1` (
+  `id` INT NOT NULL,
+  `schedule_id` INT NOT NULL,
+  `price` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `schedule_id` (`schedule_id` ASC) VISIBLE,
+  CONSTRAINT `schedule_id`
+    FOREIGN KEY (`schedule_id`)
+    REFERENCES `cinema`.`schedule` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
